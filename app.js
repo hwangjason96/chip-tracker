@@ -100,6 +100,7 @@
     mutate(fn) {
       let userError = null;
       return this.ref.transaction((cur) => {
+        userError = null; // the callback can re-run with fresher data
         const draft = normalize(cur);
         try { fn(draft); } catch (e) { userError = e; return; } // abort
         return draft;

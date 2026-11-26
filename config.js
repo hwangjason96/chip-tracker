@@ -7,13 +7,14 @@
 // To share live across devices, see README.md → "Enable live sync", then paste
 // your Firebase web config here, commit, and push.
 // ---------------------------------------------------------------------------
-window.FIREBASE_CONFIG = null;
-
-// Example:
-// window.FIREBASE_CONFIG = {
-//   apiKey: "AIza...",
-//   authDomain: "your-project.firebaseapp.com",
-//   databaseURL: "https://your-project-default-rtdb.firebaseio.com",
-//   projectId: "your-project",
-//   appId: "1:123:web:abc"
-// };
+// These values identify the Firebase project; they are not secrets.
+// Access is controlled by the Realtime Database rules (only rooms/<room> is open).
+window.FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCkuhTNDhVTwB3oklysTWtTT-FrtXzJQ00",
+  authDomain: "chip-tracker-cf94b.firebaseapp.com",
+  databaseURL: "https://chip-tracker-cf94b-default-rtdb.firebaseio.com",
+  projectId: "chip-tracker-cf94b",
+  storageBucket: "chip-tracker-cf94b.firebasestorage.app",
+  messagingSenderId: "974963940219",
+  appId: "1:974963940219:web:b3a853d22044c696027bde"
+};

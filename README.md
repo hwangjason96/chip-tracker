@@ -15,23 +15,27 @@ A simple, phone-friendly website for tracking poker/game chips and side bets wit
 
 Open the GitHub Pages URL for this repo, or just open `index.html` locally.
 
-By default the data is saved **in the browser you're using**. That works well when one person keeps the "bank" on one phone or laptop at the table.
+Data is **synced live** through a Firebase Realtime Database (project `chip-tracker-cf94b`), so everyone who opens the same room sees the same chips instantly. Share the room link from **Settings → Copy invite link**.
 
-## Enable live sync (optional, free)
+Each room is open to anyone who has its link. Pick a hard-to-guess room name (for example `?room=jason-crew-7x2k`) if you don't want strangers wandering in.
 
-To let everyone see and change the same chips from their own phones, connect a free Firebase Realtime Database:
+## Using your own Firebase project
+
+To point the site at a different Firebase Realtime Database:
 
 1. Go to <https://console.firebase.google.com>, then **Add project** (Analytics isn't needed).
 2. **Build → Realtime Database → Create database**, and start in **test mode**.
 3. **Project settings → General → Your apps → Web (`</>`)**, register an app, and copy the `firebaseConfig` object.
 4. Paste it into `config.js` as `window.FIREBASE_CONFIG = { ... }`. Make sure it includes `databaseURL`.
-5. Commit and push. The badge in the top-right will say **Live · room main**.
+5. In **Realtime Database → Rules**, publish these rules so only rooms can be read and written:
 
-> Firebase web config values aren't secrets, but test-mode rules let anyone with your URL read and write. For a friend group that's usually fine. If you want to lock it down, set these database rules so only the `rooms` path is writable:
->
-> ```json
-> { "rules": { "rooms": { "$room": { ".read": true, ".write": true } } } }
-> ```
+   ```json
+   { "rules": { "rooms": { "$room": { ".read": true, ".write": true, ".validate": "$room.matches(/^[A-Za-z0-9_-]{1,32}$/)" } } } }
+   ```
+
+6. Commit and push. The badge in the top-right will say **Live · room main**.
+
+Set `window.FIREBASE_CONFIG = null` to go back to saving in the browser only.
 
 ## Run locally
 
