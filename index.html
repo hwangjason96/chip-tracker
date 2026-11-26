@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chip Tracker</title>
+  <meta name="description" content="Track chips and bets with your friends." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪙</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🪙 Chip Tracker</div>
+    <div class="sync" id="syncStatus" title="Where your data is stored">Local only</div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="players" role="tab">Players</button>
+    <button class="tab" data-tab="bets" role="tab">Bets</button>
+    <button class="tab" data-tab="history" role="tab">History</button>
+    <button class="tab" data-tab="settings" role="tab">Settings</button>
+  </nav>
+
+  <main>
+    <!-- PLAYERS -->
+    <section id="tab-players" class="panel active">
+      <div class="stats" id="stats"></div>
+
+      <form id="addPlayerForm" class="card row-form">
+        <input id="newPlayerName" placeholder="Player name" maxlength="24" required />
+        <input id="newPlayerChips" type="number" min="0" step="1" placeholder="Starting chips" />
+        <button type="submit" class="btn primary">Add player</button>
+      </form>
+
+      <div id="playerList" class="list"></div>
+
+      <div class="card">
+        <h3>Transfer chips</h3>
+        <form id="transferForm" class="row-form">
+          <select id="transferFrom" required></select>
+          <span class="arrow">→</span>
+          <select id="transferTo" required></select>
+          <input id="transferAmount" type="number" min="1" step="1" placeholder="Amount" required />
+          <input id="transferNote" placeholder="Note (optional)" maxlength="60" />
+          <button type="submit" class="btn">Send</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- BETS -->
+    <section id="tab-bets" class="panel">
+      <div class="card">
+        <h3>New bet</h3>
+        <form id="newBetForm" class="stack">
+          <input id="betTitle" placeholder="What are we betting on? e.g. Who wins the next hand?" maxlength="80" required />
+          <input id="betOptions" placeholder="Options, comma separated. e.g. Alex, Sam, Jordan" required />
+          <button type="submit" class="btn primary">Create bet</button>
+        </form>
+        <p class="hint">Bets are pooled: everyone's wager goes into the pot, and when you settle, winners split the whole pot in proportion to what they put in.</p>
+      </div>
+
+      <h3 class="section-title">Open bets</h3>
+      <div id="openBets" class="list"></div>
+
+      <h3 class="section-title">Settled bets</h3>
+      <div id="closedBets" class="list"></div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="tab-history" class="panel">
+      <div id="historyList" class="card history"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="tab-settings" class="panel">
+      <div class="card stack">
+        <h3>Room</h3>
+        <p class="hint" id="roomHint"></p>
+        <form id="roomForm" class="row-form">
+          <input id="roomInput" placeholder="Room code" maxlength="32" pattern="[A-Za-z0-9_-]+" />
+          <button class="btn" type="submit">Join room</button>
+          <button class="btn" type="button" id="copyLink">Copy invite link</button>
+        </form>
+      </div>
+
+      <div class="card stack">
+        <h3>Defaults</h3>
+        <label class="inline">Default starting chips
+          <input id="defaultChips" type="number" min="0" step="1" />
+        </label>
+      </div>
+
+      <div class="card stack">
+        <h3>Backup</h3>
+        <div class="row-form">
+          <button class="btn" id="exportBtn" type="button">Export JSON</button>
+          <label class="btn file-btn">Import JSON<input id="importFile" type="file" accept="application/json" hidden /></label>
+        </div>
+      </div>
+
+      <div class="card stack danger-zone">
+        <h3>Danger zone</h3>
+        <div class="row-form">
+          <button class="btn danger" id="resetChips" type="button">Reset all chips to default</button>
+          <button class="btn danger" id="resetAll" type="button">Delete everything in this room</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
